@@ -203,7 +203,7 @@ class notation:
         for note in self.notes:
             #duration of note
             length = int(note[1]/minimum+.5)
-            #print(length)
+            print(length)
 
             #Tie over bar lines
             if counter + length > timeSig:
@@ -211,10 +211,10 @@ class notation:
                 #print("Debug 2:", counter,length, note)
                 self.song.append(Note(note[0],duration))
 
-                tieList.append([self.song[-1]])
+                #tieList.append([self.song[-1]])
                 #print(notes)
                 #print(length, counter)
-                length = length - counter + timeSig
+                length = length - (timeSig - counter)
                 #print(length)
                 counter = 0
 
@@ -224,7 +224,7 @@ class notation:
                     length = length - timeSig
                     duration = Duration(timeSig,4)
                     self.song.append(Note(note[0],duration))
-                    tieList[-1].append(self.song[-1])
+                    #tieList[-1].append(self.song[-1])
                     ##print(notes)
 
                 #print("Debug 4",length)
@@ -232,7 +232,7 @@ class notation:
                 counter = length%timeSig
                 duration = Duration(length,4)
                 self.song.append(Note(note[0],duration))
-                tieList[-1].append(self.song[-1])
+                #tieList[-1].append(self.song[-1])
 
             #regular note
             else:
@@ -241,12 +241,14 @@ class notation:
                 counter = (counter + length)%timeSig
 
         staff = Staff(self.song)
-        tempList = []
+        #tempList = []
         #print(tieList)
+        '''
         for bigTie in tieList:
             for littleTie in bigTie:
                 tempList.append(littleTie)
             attach(tie, tempList)
+        '''
         show(staff)
 
 

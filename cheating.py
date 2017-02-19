@@ -42,7 +42,7 @@ def holyGrail(path):
             # find the frequency and output it
             thefreq = (which+x1)*RATE/chunk
             print "The freq is %f Hz." % (thefreq)
-            rawInput.append(int(12*log(thefreq/440)/log(2)))
+            rawInput.append(int(12*log(thefreq/440)/log(2)) - 3)
         else:
             thefreq = which*RATE/chunk
             print "The freq is %f Hz." % (thefreq)
@@ -62,4 +62,6 @@ def holyGrail(path):
     return rawInput
 #holyGrail("SineWave_Of_Something.wav")
 #holyGrail("SineWave_440Hz.wav")
-holyGrail("SineWave_Of_Fun.wav")
+#holyGrail("SineWave_Of_Fun.wav")
+#holyGrail("SineWave_Of_Input_By_Tkinter.wav")
+holyGrail("MicTest.wav")

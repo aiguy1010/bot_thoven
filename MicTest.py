@@ -2,6 +2,7 @@ import pyaudio
 import numpy as np
 from matplotlib import pyplot as plt
 from numpy.fft import *
+from scipy.io import wavfile
 from numpy import log10, sqrt, array, zeros, ones, multiply
 import math
 import wave
@@ -38,5 +39,5 @@ plt.show()
 stream.stop_stream()
 stream.close()
 p.terminate()
-
+wavfile.write("MicTest.wav",RATE,numpydata)
 np.savetxt('test.csv',numpydata, delimiter=',')

@@ -1,3 +1,5 @@
+import bot_Toven
+import os
 import math, wave, array
 
 class Wav:
@@ -11,7 +13,7 @@ class Wav:
         self.vol = vol #Percent of volume
         self.data = data #unsure what this is
         self.sampRate = sampRate #Number of samples per second 44100 is standard
-        #self.numSampPerCyc = int(sampRate/freq) 
+        #self.numSampPerCyc = int(sampRate/freq)
         #self.numSamp = sampRate * dur
 
     def createSound(self):
@@ -27,6 +29,8 @@ class Wav:
                 self.data.append(int(sample))
         f.writeframes(self.data.tostring())
         f.close()
+        os.system("python cheating.py")
+        bot_Toven.main()
 
 def callPasser(inPut):
     aRay = []
@@ -50,11 +54,11 @@ def callPasser(inPut):
         else:
             aRay.append(440)
     print(aRay)
-    
+
     for i in range(3):
         bRay.append(int(inPut[i+3]))
     print(bRay)
-                    
+
     sound1 = Wav(bRay, aRay, 100, array.array('h'), 44100)
     sound1.createSound()
     print("File has been created.")
