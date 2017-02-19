@@ -1,5 +1,5 @@
 #Author: Billy Brickner
-#Date:   02/17/2017
+#Date:   02/19/2017
 #
 #
 #Takes a set of discretized tones and converts them to
@@ -14,8 +14,7 @@ import os
 from collections import Counter
 from math import sqrt
 
-
-class notation:
+class bot_Toven:
     def __init__(self,
         rawDataIn = [1,1,1,1,1,
                     1,1,5,1,1,

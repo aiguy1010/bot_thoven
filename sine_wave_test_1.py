@@ -15,7 +15,8 @@ class Wav:
         #self.numSamp = sampRate * dur
 
     def createSound(self):
-        f = wave.open('SineWave_Of_Fun.wav', 'w')
+        f = wave.open('SineWave_Of_Input_By_Tkinter.wav', 'w')
+        #f.setparams((1, 2, self.sampRate, self.numSamp, "NONE", "Uncompressed"))
         for a in range(len(self.freq)):
             numSamp= self.sampRate  * self.dur[a]
             f.setparams((1, 2, self.sampRate, numSamp, "NONE", "Uncompressed"))
@@ -26,35 +27,45 @@ class Wav:
                 self.data.append(int(sample))
         f.writeframes(self.data.tostring())
         f.close()
-'''
-def main():
+
+def callPasser(inPut):
     aRay = []
+    bRay = []
     for i in range(3):
-        a = input("Please enter note " + str(i) + ": (a to g, no sharps or flats)")
+        a = inPut[i]
         if (a.lower() == 'a'):
             aRay.append(440)
-        if (a.lower() == 'b'):
+        elif (a.lower() == 'b'):
             aRay.append(494)
-        if (a.lower() == 'c'):
+        elif (a.lower() == 'c'):
             aRay.append(523)
-        if (a.lower() == 'd'):
+        elif (a.lower() == 'd'):
             aRay.append(587)
-        if (a.lower() == 'e'):
+        elif (a.lower() == 'e'):
             aRay.append(659)
-        if (a.lower() == 'f'):
+        elif (a.lower() == 'f'):
             aRay.append(698)
-        if (a.lower() == 'g'):
+        elif (a.lower() == 'g'):
             aRay.append(783)
+        else:
+            aRay.append(440)
+    print(aRay)
     
-    sound1 = Wav(1, aRay, 100, array.array('h'), 44100)
+    for i in range(3):
+        bRay.append(int(inPut[i+3]))
+    print(bRay)
+                    
+    sound1 = Wav(bRay, aRay, 100, array.array('h'), 44100)
     sound1.createSound()
-
+    print("File has been created.")
+'''
 if __name__ == "__main__":
     main()
-'''
+
 
 arrayFreq = [196, 1661, 220, 2637, 293, 311, 329, 349, 1396, 2349, 523, 494, 440, 880, 932, 988, 373, 382, 396, 220, 440, 880]
 bray = [1, 2, 1, 3, 1, 4, 1, 7, 3, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 10]
 sound1 = Wav(bray, arrayFreq, 100, array.array('h'), 44100)
 sound1.createSound()
 
+'''
