@@ -98,6 +98,11 @@ class notation:
     #Scrubs the input for values which are undesired
     def scrub(self):
         #initalize variables
+
+
+        while self.rawData[0] != self.rawData[1]:
+            self.rawData = self.rawData[1:]
+
         expected = self.rawData[0]
         catch = -1
 
