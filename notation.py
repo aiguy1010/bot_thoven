@@ -14,7 +14,8 @@ import os
 from collections import Counter
 from math import sqrt
 
-class bot_Toven:
+
+class notation:
     def __init__(self,
         rawDataIn = [1,1,1,1,1,
                     1,1,5,1,1,
