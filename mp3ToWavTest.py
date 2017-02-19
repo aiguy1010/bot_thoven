@@ -1,3 +1,4 @@
 import pydub
-sound = pydub.AudioSegment.from_wav("test1.mp3")
-sound.export("test1.wav", format="wav")
+sound = AudioSegment.from_wav("sample1.wav")
+sound = sound.set_channels(1)
+sound.export("sample1mono.wav", format="wav")
