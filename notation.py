@@ -39,9 +39,9 @@ class notation:
         #print("Test")
         self.rawData = rawDataIn
         self.scrub()
-        #print(self.rawData)
+        print(self.rawData)
         self.convert()
-        #print(notes)
+        print(self.notes)
         #notate([[1,.13],[2,.26],[1,.14]])
         self.notate()
 
@@ -132,26 +132,27 @@ class notation:
 
 
     #Takes smoothed raw input and converts it to notes
-    def convert(self, period = .01):
+    def convert(self, period = .0469):
         #initialize Variables
         self.notes = []
         note = self.rawData[0]
-        counter = 1
+        self.counter = 1
 
         #main loop
         for i in range(1,len(self.rawData)):
             #keep growing note
             if note == self.rawData[i]:
-                counter += 1
+                self.counter = self.counter + 1
             #length of note has been reached
             else:
-                counter += 1
-                self.notes.append([note,counter*period])
+                self.counter = self.counter + 1
+                self.notes.append([note,self.counter*period])
                 note = self.rawData[i]
-                counter = 0
+                self.counter = 0
         #end loop
-        counter += 1
-        self.notes.append([note,counter*period])
+        self.counter = self.counter + 1
+        self.notes.append([note,self.counter*period])
+        print("Debug no length", self.counter, period)
 
 
 
@@ -168,17 +169,17 @@ class notation:
 
         #loop for calculating the minimum average
         for note in self.notes:
-            expected = minsum/mincount #minimum average
+            expected = minsum/(mincount+.01) #minimum average
             #print(expected,note[1])
             #This is a smaller value
-            if (note[1]-expected)/expected < -margin:
+            if (note[1]-expected + .01)/(expected + .01) < -margin:
                 minsum = note[1]
                 mincount = 1
 
             #This is a similarly small value
-            elif abs((note[1]-expected)/expected) <= margin:
-                minsum += note[1]
-                mincount += 1
+            elif abs((note[1]- expected + .01)/(expected + .01)) <= margin:
+                    minsum += note[1]
+                    mincount += 1
 
 
         #print(minsum/mincount)
@@ -195,14 +196,13 @@ class notation:
         minimum = self.determineQ()
         self.song = []
         tie = Tie()
-        tieList = []
 
 
         #main loop
         counter = 0
         for note in self.notes:
             #duration of note
-            length = int(note[1]/minimum+.5)
+            length = int(note[1]/(minimum+.01)+.5)
             #print(length)
 
             #Tie over bar lines
@@ -210,8 +210,6 @@ class notation:
                 duration = Duration(timeSig - counter,4)
                 #print("Debug 2:", counter,length, note)
                 self.song.append(Note(note[0],duration))
-
-                tieList.append([self.song[-1]])
                 #print(notes)
                 #print(length, counter)
                 length = length - counter + timeSig
@@ -224,7 +222,6 @@ class notation:
                     length = length - timeSig
                     duration = Duration(timeSig,4)
                     self.song.append(Note(note[0],duration))
-                    tieList[-1].append(self.song[-1])
                     ##print(notes)
 
                 #print("Debug 4",length)
@@ -232,7 +229,6 @@ class notation:
                 counter = length%timeSig
                 duration = Duration(length,4)
                 self.song.append(Note(note[0],duration))
-                tieList[-1].append(self.song[-1])
 
             #regular note
             else:
@@ -242,11 +238,31 @@ class notation:
 
         staff = Staff(self.song)
         tempList = []
-        #print(tieList)
-        for bigTie in tieList:
+        #print(tieList, str(tieList[0][1]) == str(tieList[0][2]) )
+        '''for bigTie in tieList:
             for littleTie in bigTie:
                 tempList.append(littleTie)
+            attach(tie, tempList)'''
+        '''
+        flag = False
+        for i in range(1,len(self.song)):
+            if str(self.song[i-1]) == str(self.song[i]) and self.song[i-1] != self.song[i]:
+                if flag == False:
+                    flag == True
+                    tempList = [self.song[i-1],self.song[i]]
+                else:
+                    if self.song[i] != tempList[-1]:
+                        tempList.append(self.song[i])
+            elif len(tempList) != 0:
+                attach(tie,tempList)
+                tempList = []
+
+        if len(tempList) != 0:
+            print(tempList)
             attach(tie, tempList)
+            tempList = []
+        '''
+
         show(staff)
 
 
@@ -259,7 +275,7 @@ class notation:
 
 
 def main():
-    bot_Toven()
+    notation()
     time.sleep(1)
     os.system("sudo rm 00*")
     os.system("mv ~/.abjad/output/0* ~/projects/fsuhacks")
